@@ -200,7 +200,9 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                   <div className="flex flex-col gap-4 mt-1">
                     <div className="p-5 rounded-2xl bg-black/40 border border-white/5 border-l-4 border-l-accent-cyan relative overflow-hidden flex flex-col gap-2 shadow-inner">
                       <p className="font-display italic text-gray-300 text-sm sm:text-base leading-relaxed">
-                        &ldquo;Každý moment působil jako hlavní událost večera.&rdquo;
+                        {locale === "cz"
+                          ? "“Každý moment působil jako hlavní událost večera.”"
+                          : "“Every single moment felt like the main event of the night.”"}
                       </p>
                       <span className="text-xs font-semibold text-accent-cyan self-start">
                         — Seznam zprávy
@@ -208,7 +210,9 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                     </div>
                     <div className="p-5 rounded-2xl bg-black/40 border border-white/5 border-l-4 border-l-accent-cyan relative overflow-hidden flex flex-col gap-2 shadow-inner">
                       <p className="font-display italic text-gray-300 text-sm sm:text-base leading-relaxed">
-                        &ldquo;Propracovaná světelná show i výtečný zvuk.&rdquo;
+                        {locale === "cz"
+                          ? "“Propracovaná světelná show i výtečný zvuk.”"
+                          : "“A sophisticated light show and exceptional sound.”"}
                       </p>
                       <span className="text-xs font-semibold text-accent-cyan self-start">
                         — iREPORT

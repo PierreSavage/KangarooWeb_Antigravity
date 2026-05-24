@@ -24,14 +24,14 @@ interface Project {
 }
 
 export default function Portfolio() {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const [filter, setFilter] = useState("all");
   const [activeProject, setActiveProject] = useState<Project | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const projects: Project[] = [
+  const czProjects: Project[] = [
     {
       title: "Soundtrack Festival",
       category: "video",
@@ -136,6 +136,114 @@ export default function Portfolio() {
       websiteUrl: "https://lucie.cz"
     }
   ];
+
+  const enProjects: Project[] = [
+    {
+      title: "Soundtrack Festival",
+      category: "video",
+      image: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&auto=format&fit=crop&q=80",
+      client: "Michal Dvořák & Kangaroo Production",
+      year: "11th Edition",
+      desc: "An international festival led by Michal Dvořák transforms the spa town into a unique stage where world-class cinematography meets live music and cutting-edge technologies. As a prestigious global event, it regularly hosts Academy Award winners and legendary composers, attracting tens of thousands of visitors to Poděbrady annually.",
+      subtitle: "OUTDOOR CULTURE",
+      stats: [
+        { value: "11th", label: "EDITION" },
+        { value: "300+", label: "ARTISTS" },
+        { value: "3", label: "MAIN STAGES" },
+        { value: "25,000+", label: "VISITORS" }
+      ],
+      bullets: [
+        "Music, film, experience",
+        "World-class show in a spa setting",
+        "Global stars within arm's reach",
+        "Symphony in motion"
+      ],
+      chips: ["Visual Energy", "Projection Magic", "Art in Motion"],
+      quote: "There are no dull moments at Soundtrack Poděbrady; every single second is worth it. A festival unparalleled in the Czech Republic, organically blending film with live music and multimedia.",
+      quoteAuthor: "Radiozurnal (Czech Radio)",
+      showreelUrl: "#",
+      websiteUrl: "https://soundtrackfestival.cz"
+    },
+    {
+      title: "Beats & Blondes",
+      category: "music",
+      image: "https://images.unsplash.com/photo-1465847899084-d164df4dedc6?w=800&auto=format&fit=crop&q=80",
+      client: "Beats & Blondes",
+      year: "2025",
+      desc: "Two worlds. One rhythm. Classical music meets the pulsing energy of techno. A unique duo that perfectly blends two musical realms in a stunning fusion of classical elegance and electronic energy. DJ Lucca and violin virtuoso Martina Bačová deliver an unforgettable experience that elevates any event.",
+      subtitle: "CLASSICAL ELEGANCE MEETS TECHNO ENERGY",
+      stats: [
+        { value: "100+", label: "CITIES" },
+        { value: "2", label: "MAIN STARS" },
+        { value: "100%", label: "LIVE PERFORMANCE" },
+        { value: "1", label: "UNIQUE SHOW" }
+      ],
+      bullets: [
+        "State-of-the-art visual production",
+        "More than just a show",
+        "Exclusive VJ",
+        "Immersive music"
+      ],
+      chips: ["Corporate Events", "Gala Nights", "Private Parties"],
+      quote: "A captivating fusion of classical and electronic music. Pure magic on stage.",
+      quoteAuthor: "FESTIVAL REVIEW",
+      showreelUrl: "#"
+    },
+    {
+      title: "DRAWMAN Show",
+      category: "cgi",
+      image: "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=800&auto=format&fit=crop&q=80",
+      client: "Kangaroo Production",
+      year: "2026",
+      desc: "DRAWMAN is a unique multimedia performance telling a powerful story of the eternal struggle between creation and destruction. The show is inspired by the work of legendary Art Nouveau artist Alphonse Mucha, whose elegant posters, jewelry, and monumental canvases defined an entire artistic era.",
+      subtitle: "ORIGINAL MULTIMEDIA PROJECT",
+      stats: [
+        { value: "1", label: "ICONIC NARRATOR" },
+        { value: "3D", label: "PROJECTIONS" },
+        { value: "LIVE", label: "MULTIMEDIA SHOW" },
+        { value: "2", label: "WORLDS" }
+      ],
+      bullets: [
+        "Art Nouveau style",
+        "3D projections",
+        "Original music",
+        "Live performance"
+      ],
+      chips: ["Arena Shows", "Theater Performances", "Outdoor Stages"],
+      quote: "A breathtaking work. Firstly, an excellent concept paying tribute to Mucha as a genius and globally acclaimed Czech figure; secondly, a powerful visual and musical experience.",
+      quoteAuthor: "PrahaIN.cz",
+      showreelUrl: "#",
+      websiteUrl: "https://drawmanshow.com"
+    },
+    {
+      title: "LUCIE 40 Let",
+      category: "video",
+      image: "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800&auto=format&fit=crop&q=80",
+      client: "LUCIE",
+      year: "40 Years",
+      desc: "The band LUCIE is a cornerstone of the Czech music scene, fundamentally shaping the development of domestic rock music with its influence and output. Throughout its existence, LUCIE has won numerous prestigious awards, including ten Anděl Awards, and sold hundreds of thousands of albums. Their recent anniversary tour across the Czech Republic confirmed the band's top-tier standing and enduring appeal across generations. LUCIE is currently working on their new album R.A.D.O.S.T.",
+      subtitle: "LEGEND OF THE CZECH MUSIC SCENE",
+      stats: [
+        { value: "40", label: "YEARS ON STAGE" },
+        { value: "10", label: "ANDEL AWARDS" },
+        { value: "8", label: "STUDIO ALBUMS" },
+        { value: "15+", label: "LEGENDARY HITS" }
+      ],
+      bullets: [
+        "Voice of an entire generation",
+        "One-of-a-kind show",
+        "Ten Andel Awards collection",
+        "Scenic lighting design"
+      ],
+      chips: ["Festivals", "Corporate Events", "Concert Halls"],
+      quote: "Every single moment felt like the main event of the night. A sophisticated light show and exceptional sound.",
+      quoteAuthor: "Seznam zprávy / iREPORT",
+      showreelUrl: "#",
+      websiteUrl: "https://lucie.cz"
+    }
+  ];
+
+  const projects = locale === "cz" ? czProjects : enProjects;
 
   const filteredProjects =
     filter === "all" ? projects : projects.filter((p) => p.category === filter);
