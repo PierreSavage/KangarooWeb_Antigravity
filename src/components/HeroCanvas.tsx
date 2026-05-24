@@ -38,6 +38,8 @@ function InteractiveScene() {
     <group ref={groupRef}>
       {/* Multilayered Starry Sky */}
       <ParticleStars />
+      {/* Occasional shooting stars/meteors */}
+      <ShootingStars />
     </group>
   );
 }
@@ -325,6 +327,110 @@ function ParticleStars() {
           alphaTest={0.001}
         />
       </points>
+    </group>
+  );
+}
+
+function ShootingStar() {
+  const lineRef = useRef<THREE.Line>(null);
+  const meteorData = useRef({
+    active: false,
+    x: 0,
+    y: 0,
+    z: 0,
+    vx: 0,
+    vy: 0,
+    vz: 0,
+    length: 1.0,
+    progress: 0,
+    duration: 0.8
+  });
+
+  useFrame((state, delta) => {
+    const data = meteorData.current;
+    
+    if (!data.active) {
+      // Small spawn rate per frame (approx once every 12-25s per star)
+      if (Math.random() < 0.0015) {
+        data.active = true;
+        data.progress = 0;
+        data.duration = 0.4 + Math.random() * 0.6;
+        data.length = 0.8 + Math.random() * 1.5;
+        
+        // Spawn at random coordinates near the upper left quadrant
+        data.x = -18 + Math.random() * 18;
+        data.y = 5 + Math.random() * 8;
+        data.z = -3 - Math.random() * 9;
+        
+        // Diagonal downward angle (moving top-left to bottom-right)
+        const speed = 16 + Math.random() * 14;
+        const angle = -Math.PI / 6 - Math.random() * (Math.PI / 8); // -30 to -52.5 degrees
+        data.vx = Math.cos(angle) * speed;
+        data.vy = Math.sin(angle) * speed;
+        data.vz = 0;
+      }
+      
+      if (lineRef.current) {
+        lineRef.current.visible = false;
+      }
+      return;
+    }
+
+    // Update active meteor
+    data.progress += delta / data.duration;
+    if (data.progress >= 1) {
+      data.active = false;
+      if (lineRef.current) lineRef.current.visible = false;
+      return;
+    }
+
+    data.x += data.vx * delta;
+    data.y += data.vy * delta;
+    data.z += data.vz * delta;
+
+    if (lineRef.current) {
+      lineRef.current.visible = true;
+      lineRef.current.position.set(data.x, data.y, data.z);
+      
+      const opacity = Math.sin(data.progress * Math.PI);
+      const mat = lineRef.current.material as THREE.LineBasicMaterial;
+      if (mat) {
+        mat.opacity = opacity * 0.85;
+      }
+    }
+  });
+
+  // Streaking line segments (pointing back up-left from moving center)
+  const points = [
+    new THREE.Vector3(0, 0, 0),
+    new THREE.Vector3(-1.8, 1.0, 0)
+  ];
+
+  // Alternating between warm gold/orange and premium cyan
+  const color = Math.random() < 0.4 ? "#ff5f20" : "#00f0ff";
+
+  return (
+    <line ref={lineRef as any}>
+      <bufferGeometry attach="geometry" onUpdate={(self) => self.setFromPoints(points)} />
+      <lineBasicMaterial
+        attach="material"
+        color={color}
+        transparent
+        opacity={0}
+        linewidth={2}
+        blending={THREE.AdditiveBlending}
+        depthWrite={false}
+      />
+    </line>
+  );
+}
+
+function ShootingStars() {
+  return (
+    <group>
+      <ShootingStar />
+      <ShootingStar />
+      <ShootingStar />
     </group>
   );
 }
